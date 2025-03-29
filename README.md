@@ -1,96 +1,79 @@
-# legacy-voting
+# 🗳️ Solana Anchor Voting Program
 
-## Getting Started
+A simple voting program built with [Anchor](https://www.anchor-lang.com/) for the Solana blockchain. This program allows users to create polls, register candidates, and cast votes securely on-chain.
 
-### Prerequisites
+## 📦 Features
 
-- Node v18.18.0 or higher
+- Initialize new polls with descriptions and time limits.
+- Add candidates to existing polls.
+- Vote for registered candidates.
+- Uses PDAs (Program Derived Addresses) for account uniqueness and security.
 
-- Rust v1.77.2 or higher
-- Anchor CLI 0.30.1 or higher
-- Solana CLI 1.18.17 or higher
+---
 
-### Installation
+## 📁 Project Structure
 
-#### Clone the repo
+- `PollAccount`: Stores poll metadata like ID, description, start and end times, and number of candidates.
+- `Candidate`: Stores candidate name and vote count.
+- `initialize_poll`: Creates a new poll.
+- `initialize_candidate`: Adds a new candidate to a poll.
+- `vote`: Increments the vote count for a candidate.
 
-```shell
-git clone <repo-url>
-cd <repo-name>
+---
+
+## 🔧 Instructions
+
+### 📌 Prerequisites
+
+- [Rust](https://www.rust-lang.org/)
+- [Solana CLI](https://docs.solana.com/cli/install-solana-cli-tools)
+- [Anchor CLI](https://www.anchor-lang.com/docs/installation)
+
+### 🛠 Build
+
+```bash
+anchor build
 ```
 
-#### Install Dependencies
+#### 🛠️ Troubleshooting
 
-```shell
-pnpm install
+If encounting the following error:
+
+```text
+lock file version 4 requires -Znext-lockfile-bump
 ```
 
-#### Start the web app
+It can be resolved it by running the build with the following command:
 
-```
-pnpm dev
-```
-
-## Apps
-
-### anchor
-
-This is a Solana program written in Rust using the Anchor framework.
-
-#### Commands
-
-You can use any normal anchor commands. Either move to the `anchor` directory and run the `anchor` command or prefix the
-command with `pnpm`, eg: `pnpm anchor`.
-
-#### Sync the program id:
-
-Running this command will create a new keypair in the `anchor/target/deploy` directory and save the address to the
-Anchor config file and update the `declare_id!` macro in the `./src/lib.rs` file of the program.
-
-You will manually need to update the constant in `anchor/lib/counter-exports.ts` to match the new program id.
-
-```shell
-pnpm anchor keys sync
+```bash
+cargo +nightly build -Znext-lockfile-bump
 ```
 
-#### Build the program:
+Or, with using Anchor:
 
-```shell
-pnpm anchor-build
+```bash
+anchor build -- -- -Znext-lockfile-bump
 ```
 
-#### Start the test validator with the program deployed:
+To run tests with the same workaround:
 
-```shell
-pnpm anchor-localnet
+```bash
+anchor test --skip-local-validator --skip-deploy -- -- -Znext-lockfile-bump
 ```
 
-#### Run the tests
+> 💡 Tip: It's generally recommended to update Anchor to the latest version (e.g., 0.31) to avoid such issues entirely:
+>
+> ```bash
+> cargo install --git https://github.com/coral-xyz/anchor anchor-cli --force
+> ```
+>
+> Reference:
+> ```text
+> https://github.com/coral-xyz/anchor/issues/3392
+> ```
 
-```shell
-pnpm anchor-test
-```
 
-#### Deploy to Devnet
 
-```shell
-pnpm anchor deploy --provider.cluster devnet
-```
 
-### web
 
-This is a React app that uses the Anchor generated client to interact with the Solana program.
 
-#### Commands
-
-Start the web app
-
-```shell
-pnpm dev
-```
-
-Build the web app
-
-```shell
-pnpm build
-```
