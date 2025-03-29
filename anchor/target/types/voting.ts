@@ -45,7 +45,19 @@ export type Voting = {
         },
         {
           "name": "candidate",
-          "writable": true
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "pollId"
+              },
+              {
+                "kind": "arg",
+                "path": "candidateName"
+              }
+            ]
+          }
         },
         {
           "name": "systemProgram",
@@ -54,12 +66,12 @@ export type Voting = {
       ],
       "args": [
         {
-          "name": "candidateName",
-          "type": "string"
-        },
-        {
           "name": "pollId",
           "type": "u64"
+        },
+        {
+          "name": "candidateName",
+          "type": "string"
         }
       ]
     },
@@ -164,12 +176,12 @@ export type Voting = {
       ],
       "args": [
         {
-          "name": "candidateName",
-          "type": "string"
-        },
-        {
           "name": "pollId",
           "type": "u64"
+        },
+        {
+          "name": "candidateName",
+          "type": "string"
         }
       ]
     }

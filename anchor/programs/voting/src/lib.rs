@@ -32,8 +32,8 @@ pub mod voting {
   }
 
   pub fn initialize_candidate(ctx: Context<InitializeCandidate>,
-                              candidate_name: String,
                               poll_id: u64,
+                              candidate_name: String,
                             ) -> Result<()> {
 
     let candidate = &mut ctx.accounts.candidate;
@@ -45,7 +45,9 @@ pub mod voting {
     Ok(())
   }
 
-  pub fn vote(ctx: Context<Vote>, candidate_name: String, poll_id: u64) -> Result<()> {
+  pub fn vote(ctx: Context<Vote>,
+              poll_id: u64,
+              candidate_name: String, ) -> Result<()> {
     let candidate = &mut ctx.accounts.candidate;
     candidate.candidate_votes += 1;
     Ok(())
@@ -73,12 +75,12 @@ pub struct InitializeCandidate<'info> {
   )]
   pub poll_account: Account<'info, PollAccount>,
 
-  #[account(init,
+  #[account(init_if_needed,
             payer = signer,
             space = 8 + Candidate::INIT_SPACE,
             seeds = [
                       poll_id.to_le_bytes().as_ref(), 
-                      &hash_candidate_name(&candidate_name)
+                      candidate_name.as_bytes(),
                     ],
             bump
   )]
@@ -126,7 +128,7 @@ pub struct InitializePoll<'info> {
   pub signer: Signer<'info>, // The user who pays for and signs the transaction
 
   #[account(
-            init, // This tells Anchor to create the account
+            init_if_needed, // This tells Anchor to create the account
             payer = signer, // signer pays for the account creation
             space = 8 + PollAccount::INIT_SPACE, // Total account size (8-byte discriminator + struct size)
             seeds = [poll_id.to_le_bytes().as_ref()], // PDA seed based on poll ID

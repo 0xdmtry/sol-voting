@@ -39,7 +39,19 @@
         },
         {
           "name": "candidate",
-          "writable": true
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "arg",
+                "path": "poll_id"
+              },
+              {
+                "kind": "arg",
+                "path": "candidate_name"
+              }
+            ]
+          }
         },
         {
           "name": "system_program",
@@ -48,12 +60,12 @@
       ],
       "args": [
         {
-          "name": "candidate_name",
-          "type": "string"
-        },
-        {
           "name": "poll_id",
           "type": "u64"
+        },
+        {
+          "name": "candidate_name",
+          "type": "string"
         }
       ]
     },
@@ -158,12 +170,12 @@
       ],
       "args": [
         {
-          "name": "candidate_name",
-          "type": "string"
-        },
-        {
           "name": "poll_id",
           "type": "u64"
+        },
+        {
+          "name": "candidate_name",
+          "type": "string"
         }
       ]
     }
