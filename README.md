@@ -72,8 +72,64 @@ anchor test --skip-local-validator --skip-deploy -- -- -Znext-lockfile-bump
 > https://github.com/coral-xyz/anchor/issues/3392
 > ```
 
+### Run Test Validator
 
+```bash
+solana-test-validator
+```
 
+### Checking Solana Config
 
+```bash
+solana config get
+```
 
+Expected output, sothing like:
+```text
+Config File: /Users/*******/.config/solana/cli/config.yml
+RPC URL: http://localhost:8899 
+WebSocket URL: ws://localhost:8900/ (computed)
+Keypair Path: /Users/*******/.config/solana/cli/my-keypair.json 
+Commitment: confirmed
+```
 
+Set config to local
+
+```bash
+solana config set -ul
+```
+
+### Deploying program
+
+```bash
+anchor deploy
+```
+
+Expected output, something like:
+
+```text
+Deploying cluster: http://127.0.0.1:8899
+Upgrade authority: /Users/*******/.config/solana/id.json
+Deploying program "voting"...
+Program path: /Users/*******/RustroverProjects/solana-bootcamp/votting-dapp/v4/voting/anchor/target/deploy/voting.so...
+Program Id: 2SLaJ27ajTEr2Qn3ar4LK1Tyq8peSBqzRwcszdTJ2LNa
+
+Deploy success
+```
+
+It could be checked on the Solana Explorer with the Custom RPC set to the localhost:8899
+
+Example:
+
+```text
+https://explorer.solana.com/address/2SLaJ27ajTEr2Qn3ar4LK1Tyq8peSBqzRwcszdTJ2LNa?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899
+```
+
+### Working with Blinks
+
+```text
+dial.to/?action=solana-action:http://localhost:3000/api/vote
+```
+
+> NOTE: In order to overcome the CORS error, there is a necessity to use the `ACTIONS_CORS_HEADERS` from `@solana/actions`, e.g.:
+> `return Response.json(actionMetaData, {headers: ACTIONS_CORS_HEADERS })`
